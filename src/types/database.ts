@@ -15,6 +15,36 @@ type AgentRow = {
   status: "aktif" | "izinli" | "pasif";
 };
 
+type LeadRow = {
+  id: string;
+  name: string;
+  phone: string;
+  email: string | null;
+  status:
+    | "yeni"
+    | "iletisimde"
+    | "nitelikli"
+    | "randevu"
+    | "teklif"
+    | "kazanildi"
+    | "kaybedildi";
+  source:
+    | "web-sitesi"
+    | "whatsapp"
+    | "instagram"
+    | "referans"
+    | "portal"
+    | "telefon";
+  agent_id: string | null;
+  score: number;
+  budget: number;
+  property_interest: string | null;
+  last_contact_at: string;
+  created_at: string;
+  notes: string | null;
+  updated_at: string;
+};
+
 export type Database = {
   public: {
     Tables: {
@@ -22,6 +52,11 @@ export type Database = {
         Row: AgentRow;
         Insert: AgentRow;
         Update: Partial<AgentRow>;
+      };
+      leads: {
+        Row: LeadRow;
+        Insert: LeadRow;
+        Update: Partial<LeadRow>;
       };
     };
     Views: Record<string, never>;
