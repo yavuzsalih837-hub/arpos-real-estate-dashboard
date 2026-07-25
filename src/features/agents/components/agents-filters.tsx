@@ -16,7 +16,7 @@ import {
   getUniqueSpecialties,
   type AgentSortOption,
 } from "@/features/agents/lib";
-import { AGENT_STATUS_LABELS, type AgentStatus } from "@/features/agents/types";
+import { AGENT_STATUS_LABELS, type Agent, type AgentStatus } from "@/features/agents/types";
 
 export type AgentFilterValues = {
   search: string;
@@ -27,14 +27,15 @@ export type AgentFilterValues = {
 };
 
 type AgentsFiltersProps = {
+  agents: Agent[];
   values: AgentFilterValues;
   onChange: (values: AgentFilterValues) => void;
   onReset: () => void;
 };
 
-export function AgentsFilters({ values, onChange, onReset }: AgentsFiltersProps) {
-  const regions = getUniqueRegions();
-  const specialties = getUniqueSpecialties();
+export function AgentsFilters({ agents, values, onChange, onReset }: AgentsFiltersProps) {
+  const regions = getUniqueRegions(agents);
+  const specialties = getUniqueSpecialties(agents);
 
   return (
     <div className="flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:items-center">

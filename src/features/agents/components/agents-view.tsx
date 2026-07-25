@@ -35,7 +35,10 @@ export function AgentsView({ agents }: { agents: Agent[] }) {
   const [filters, setFilters] = useState<AgentFilterValues>(DEFAULT_FILTERS);
   const [selectedAgent, setSelectedAgent] = useState<Agent | null>(null);
 
-  const performanceByAgent = useMemo(() => getAllAgentPerformance(), []);
+  const performanceByAgent = useMemo(
+    () => getAllAgentPerformance(agents),
+    [agents],
+  );
 
   const filteredAgents = useMemo(() => {
     const search = filters.search.trim().toLowerCase();
@@ -66,6 +69,7 @@ export function AgentsView({ agents }: { agents: Agent[] }) {
     <div className="flex flex-col gap-4">
       <div className="flex flex-col gap-3 lg:flex-row lg:items-start lg:justify-between">
         <AgentsFilters
+          agents={agents}
           values={filters}
           onChange={setFilters}
           onReset={() => setFilters(DEFAULT_FILTERS)}

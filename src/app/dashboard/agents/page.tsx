@@ -1,18 +1,17 @@
 import { PageHeader } from "@/components/shared/page-header";
 import { AgentsView } from "@/features/agents/components/agents-view";
-import { mockAgents } from "@/features/agents/data";
-import { simulateNetworkDelay } from "@/lib/utils";
+import { getAgents } from "@/features/agents/queries";
 
 export default async function AgentsPage() {
-  await simulateNetworkDelay();
+  const agents = await getAgents();
 
   return (
     <>
       <PageHeader
         title="Danışman Yönetimi"
-        description={`${mockAgents.length} danışman listeleniyor.`}
+        description={`${agents.length} danışman listeleniyor.`}
       />
-      <AgentsView agents={mockAgents} />
+      <AgentsView agents={agents} />
     </>
   );
 }

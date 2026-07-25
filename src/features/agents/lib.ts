@@ -1,5 +1,4 @@
 import { isSameMonth, subMonths } from "date-fns";
-import { mockAgents } from "@/features/agents/data";
 import { mockLeads } from "@/features/leads/data";
 import { isHotLead } from "@/features/leads/lib";
 import { mockProperties } from "@/features/properties/data";
@@ -96,9 +95,11 @@ export function getAgentPerformance(agentId: string): AgentPerformance {
   };
 }
 
-export function getAllAgentPerformance(): Record<string, AgentPerformance> {
+export function getAllAgentPerformance(
+  agents: Agent[],
+): Record<string, AgentPerformance> {
   return Object.fromEntries(
-    mockAgents.map((agent) => [agent.id, getAgentPerformance(agent.id)]),
+    agents.map((agent) => [agent.id, getAgentPerformance(agent.id)]),
   );
 }
 
@@ -175,14 +176,14 @@ export function sortAgents(
   }
 }
 
-export function getUniqueRegions(): string[] {
-  return Array.from(new Set(mockAgents.map((agent) => agent.region))).sort(
+export function getUniqueRegions(agents: Agent[]): string[] {
+  return Array.from(new Set(agents.map((agent) => agent.region))).sort(
     (a, b) => a.localeCompare(b, "tr"),
   );
 }
 
-export function getUniqueSpecialties(): string[] {
-  return Array.from(new Set(mockAgents.map((agent) => agent.specialty))).sort(
+export function getUniqueSpecialties(agents: Agent[]): string[] {
+  return Array.from(new Set(agents.map((agent) => agent.specialty))).sort(
     (a, b) => a.localeCompare(b, "tr"),
   );
 }
