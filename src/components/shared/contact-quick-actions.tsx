@@ -27,6 +27,7 @@ export function ContactQuickActions({
         <Button
           variant="outline"
           size={size}
+          nativeButton={false}
           render={
             <a
               href={`https://wa.me/${waNumber}`}
@@ -43,6 +44,7 @@ export function ContactQuickActions({
         <Button
           variant="outline"
           size={size}
+          nativeButton={false}
           render={<a href={`tel:${phone}`} aria-label="Telefonla ara" />}
         >
           <Phone />
@@ -52,6 +54,7 @@ export function ContactQuickActions({
         <Button
           variant="outline"
           size={size}
+          nativeButton={false}
           render={<a href={`mailto:${email}`} aria-label="E-posta gönder" />}
         >
           <Mail />
