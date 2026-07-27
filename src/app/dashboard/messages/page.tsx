@@ -1,10 +1,9 @@
 import { PageHeader } from "@/components/shared/page-header";
 import { MessagesView } from "@/features/messages/components/messages-view";
-import { mockConversations } from "@/features/messages/data";
-import { simulateNetworkDelay } from "@/lib/utils";
+import { getConversations } from "@/features/messages/queries";
 
 export default async function MessagesPage() {
-  await simulateNetworkDelay();
+  const conversations = await getConversations();
 
   return (
     <>
@@ -12,7 +11,7 @@ export default async function MessagesPage() {
         title="WhatsApp Mesajları"
         description="WhatsApp Cloud API üzerinden gelen ve giden mesajların merkezi."
       />
-      <MessagesView conversations={mockConversations} />
+      <MessagesView conversations={conversations} />
     </>
   );
 }

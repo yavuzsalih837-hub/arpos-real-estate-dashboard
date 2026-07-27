@@ -100,6 +100,25 @@ type FollowUpRow = {
   updated_at: string;
 };
 
+type ConversationMessageRow = {
+  id: string;
+  direction: "inbound" | "outbound";
+  content: string;
+  sentAt: string;
+  read: boolean;
+  deliveryStatus?: "gonderildi" | "iletildi" | "okundu";
+  automated?: boolean;
+};
+
+type ConversationRow = {
+  id: string;
+  lead_id: string | null;
+  agent_id: string | null;
+  messages: ConversationMessageRow[];
+  created_at: string;
+  updated_at: string;
+};
+
 export type Database = {
   public: {
     Tables: {
@@ -127,6 +146,11 @@ export type Database = {
         Row: FollowUpRow;
         Insert: FollowUpRow;
         Update: Partial<FollowUpRow>;
+      };
+      conversations: {
+        Row: ConversationRow;
+        Insert: ConversationRow;
+        Update: Partial<ConversationRow>;
       };
     };
     Views: Record<string, never>;
