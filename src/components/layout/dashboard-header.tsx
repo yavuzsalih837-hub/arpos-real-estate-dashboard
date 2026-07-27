@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { usePathname } from "next/navigation";
-import { Menu } from "lucide-react";
+import { LogOut, Menu } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
   Sheet,
@@ -16,6 +16,7 @@ import { SidebarNav } from "@/components/layout/sidebar-nav";
 import { ThemeToggle } from "@/components/layout/theme-toggle";
 import { LogoMark } from "@/components/shared/logo-mark";
 import { dashboardNavItems } from "@/config/nav";
+import { signOut } from "@/app/logout/actions";
 
 export function DashboardHeader() {
   const pathname = usePathname();
@@ -64,6 +65,16 @@ export function DashboardHeader() {
         <Avatar>
           <AvatarFallback>OY</AvatarFallback>
         </Avatar>
+        <form action={signOut}>
+          <Button
+            type="submit"
+            variant="ghost"
+            size="icon-sm"
+            aria-label="Çıkış yap"
+          >
+            <LogOut className="size-4" />
+          </Button>
+        </form>
       </div>
     </header>
   );
