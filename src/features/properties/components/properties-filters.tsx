@@ -14,6 +14,7 @@ import { mockAgents } from "@/features/agents/data";
 import {
   PROPERTY_STATUS_LABELS,
   PROPERTY_TYPE_LABELS,
+  type Property,
   type PropertyStatus,
   type PropertyType,
 } from "@/features/properties/types";
@@ -34,18 +35,20 @@ export type PropertyFilterValues = {
 };
 
 type PropertiesFiltersProps = {
+  properties: Property[];
   values: PropertyFilterValues;
   onChange: (values: PropertyFilterValues) => void;
   onReset: () => void;
 };
 
 export function PropertiesFilters({
+  properties,
   values,
   onChange,
   onReset,
 }: PropertiesFiltersProps) {
-  const cities = getUniqueCities();
-  const districts = getDistrictsForCity(values.city);
+  const cities = getUniqueCities(properties);
+  const districts = getDistrictsForCity(properties, values.city);
 
   return (
     <div className="flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:items-center">

@@ -25,17 +25,17 @@ export function matchesPriceBand(price: number, bandId: string): boolean {
   return price >= band.min && (band.max === null || price < band.max);
 }
 
-export function getUniqueCities(): string[] {
-  return Array.from(new Set(mockProperties.map((property) => property.city))).sort(
+export function getUniqueCities(properties: Property[]): string[] {
+  return Array.from(new Set(properties.map((property) => property.city))).sort(
     (a, b) => a.localeCompare(b, "tr"),
   );
 }
 
-export function getDistrictsForCity(city: string): string[] {
+export function getDistrictsForCity(properties: Property[], city: string): string[] {
   const source =
     city === "all"
-      ? mockProperties
-      : mockProperties.filter((property) => property.city === city);
+      ? properties
+      : properties.filter((property) => property.city === city);
 
   return Array.from(new Set(source.map((property) => property.district))).sort(
     (a, b) => a.localeCompare(b, "tr"),

@@ -45,6 +45,30 @@ type LeadRow = {
   updated_at: string;
 };
 
+type PropertyRow = {
+  id: string;
+  listing_code: string;
+  title: string;
+  description: string | null;
+  price: number;
+  city: string;
+  district: string;
+  neighborhood: string | null;
+  property_type:
+    | "daire"
+    | "villa"
+    | "mustakil-ev"
+    | "ofis"
+    | "isyeri"
+    | "arsa";
+  rooms: string;
+  area_m2: number;
+  status: "aktif" | "pasif" | "satildi" | "kiralandi";
+  agent_id: string | null;
+  created_at: string;
+  updated_at: string;
+};
+
 export type Database = {
   public: {
     Tables: {
@@ -57,6 +81,11 @@ export type Database = {
         Row: LeadRow;
         Insert: LeadRow;
         Update: Partial<LeadRow>;
+      };
+      properties: {
+        Row: PropertyRow;
+        Insert: PropertyRow;
+        Update: Partial<PropertyRow>;
       };
     };
     Views: Record<string, never>;

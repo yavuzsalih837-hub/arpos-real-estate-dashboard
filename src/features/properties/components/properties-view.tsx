@@ -80,6 +80,7 @@ export function PropertiesView({ properties }: { properties: Property[] }) {
     <div className="flex flex-col gap-4">
       <div className="flex flex-col gap-3 lg:flex-row lg:items-start lg:justify-between">
         <PropertiesFilters
+          properties={properties}
           values={filters}
           onChange={setFilters}
           onReset={() => setFilters(DEFAULT_FILTERS)}

@@ -1,18 +1,17 @@
 import { PageHeader } from "@/components/shared/page-header";
 import { PropertiesView } from "@/features/properties/components/properties-view";
-import { mockProperties } from "@/features/properties/data";
-import { simulateNetworkDelay } from "@/lib/utils";
+import { getProperties } from "@/features/properties/queries";
 
 export default async function PropertiesPage() {
-  await simulateNetworkDelay();
+  const properties = await getProperties();
 
   return (
     <>
       <PageHeader
         title="Portföy Yönetimi"
-        description={`${mockProperties.length} portföy kaydı listeleniyor.`}
+        description={`${properties.length} portföy kaydı listeleniyor.`}
       />
-      <PropertiesView properties={mockProperties} />
+      <PropertiesView properties={properties} />
     </>
   );
 }
