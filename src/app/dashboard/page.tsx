@@ -13,38 +13,43 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { mockLeads } from "@/features/leads/data";
+import { getLeads } from "@/features/leads/queries";
 import { isHotLead } from "@/features/leads/lib";
-import { mockProperties } from "@/features/properties/data";
-import { mockFollowUps } from "@/features/followups/data";
+import { getProperties } from "@/features/properties/queries";
+import { getFollowUps } from "@/features/followups/queries";
 import { getFollowUpCounts } from "@/features/followups/lib";
 import { getPipelineSummary } from "@/features/pipeline/lib";
+import { getAppointments } from "@/features/appointments/queries";
 import {
   getTodaysAppointments,
   getUpcomingAppointments,
 } from "@/features/appointments/lib";
-import { simulateNetworkDelay } from "@/lib/utils";
 
 export default async function DashboardPage() {
-  await simulateNetworkDelay();
+  const [leads, properties, appointments, followUps] = await Promise.all([
+    getLeads(),
+    getProperties(),
+    getAppointments(),
+    getFollowUps(),
+  ]);
 
-  const totalLeads = mockLeads.length;
-  const newLeads = mockLeads.filter((lead) => lead.status === "yeni").length;
-  const hotLeads = mockLeads.filter(isHotLead).length;
-  const activeProperties = mockProperties.filter(
+  const totalLeads = leads.length;
+  const newLeads = leads.filter((lead) => lead.status === "yeni").length;
+  const hotLeads = leads.filter(isHotLead).length;
+  const activeProperties = properties.filter(
     (property) => property.status === "aktif",
   ).length;
-  const todaysAppointmentsCount = getTodaysAppointments().length;
-  const pendingFollowUps = getFollowUpCounts(mockFollowUps).pending;
+  const todaysAppointmentsCount = getTodaysAppointments(appointments).length;
+  const pendingFollowUps = getFollowUpCounts(followUps).pending;
 
-  const recentLeads = [...mockLeads]
+  const recentLeads = [...leads]
     .sort(
       (a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime(),
     )
     .slice(0, 5);
 
-  const pipelineStages = getPipelineSummary();
-  const upcomingAppointments = getUpcomingAppointments();
+  const pipelineStages = getPipelineSummary(leads);
+  const upcomingAppointments = getUpcomingAppointments(appointments);
 
   return (
     <>

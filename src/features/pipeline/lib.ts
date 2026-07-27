@@ -1,4 +1,3 @@
-import { mockLeads } from "@/features/leads/data";
 import {
   LEAD_STATUS_LABELS,
   type Lead,
@@ -20,11 +19,11 @@ export type PipelineStageSummary = {
   count: number;
 };
 
-export function getPipelineSummary(): PipelineStageSummary[] {
+export function getPipelineSummary(leads: Lead[]): PipelineStageSummary[] {
   return PIPELINE_STAGES.map((status) => ({
     status,
     label: LEAD_STATUS_LABELS[status],
-    count: mockLeads.filter((lead) => lead.status === status).length,
+    count: leads.filter((lead) => lead.status === status).length,
   }));
 }
 
