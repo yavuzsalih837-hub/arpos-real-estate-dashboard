@@ -1,10 +1,9 @@
 import { PageHeader } from "@/components/shared/page-header";
 import { AppointmentsView } from "@/features/appointments/components/appointments-view";
-import { mockAppointments } from "@/features/appointments/data";
-import { simulateNetworkDelay } from "@/lib/utils";
+import { getAppointments } from "@/features/appointments/queries";
 
 export default async function AppointmentsPage() {
-  await simulateNetworkDelay();
+  const appointments = await getAppointments();
 
   return (
     <>
@@ -12,7 +11,7 @@ export default async function AppointmentsPage() {
         title="Randevu ve Takvim"
         description="Gösterim, görüşme ve imza randevularının takvimi."
       />
-      <AppointmentsView appointments={mockAppointments} />
+      <AppointmentsView appointments={appointments} />
     </>
   );
 }

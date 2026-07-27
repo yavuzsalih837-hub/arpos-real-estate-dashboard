@@ -69,6 +69,22 @@ type PropertyRow = {
   updated_at: string;
 };
 
+type AppointmentRow = {
+  id: string;
+  lead_id: string | null;
+  lead_name: string;
+  agent_id: string | null;
+  property_id: string | null;
+  property_title: string;
+  type: "gösterim" | "görüşme" | "imza";
+  status: "planlandi" | "onaylandi" | "tamamlandi" | "iptal" | "gelmedi";
+  scheduled_at: string;
+  duration_minutes: number;
+  note: string | null;
+  created_at: string;
+  updated_at: string;
+};
+
 export type Database = {
   public: {
     Tables: {
@@ -86,6 +102,11 @@ export type Database = {
         Row: PropertyRow;
         Insert: PropertyRow;
         Update: Partial<PropertyRow>;
+      };
+      appointments: {
+        Row: AppointmentRow;
+        Insert: AppointmentRow;
+        Update: Partial<AppointmentRow>;
       };
     };
     Views: Record<string, never>;
