@@ -85,6 +85,21 @@ type AppointmentRow = {
   updated_at: string;
 };
 
+type FollowUpRow = {
+  id: string;
+  lead_id: string | null;
+  lead_name: string;
+  agent_id: string | null;
+  due_at: string;
+  channel: "whatsapp" | "telefon" | "e-posta" | "gorusme" | "manuel-gorev";
+  priority: "dusuk" | "normal" | "yuksek" | "acil";
+  status: "bekliyor" | "tamamlandi" | "iptal";
+  note: string | null;
+  history: { id: string; at: string; label: string }[];
+  created_at: string;
+  updated_at: string;
+};
+
 export type Database = {
   public: {
     Tables: {
@@ -107,6 +122,11 @@ export type Database = {
         Row: AppointmentRow;
         Insert: AppointmentRow;
         Update: Partial<AppointmentRow>;
+      };
+      followups: {
+        Row: FollowUpRow;
+        Insert: FollowUpRow;
+        Update: Partial<FollowUpRow>;
       };
     };
     Views: Record<string, never>;

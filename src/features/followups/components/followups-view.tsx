@@ -257,6 +257,7 @@ export function FollowUpsView({
       <div className="flex flex-col gap-4">
         <div className="flex flex-col gap-3 lg:flex-row lg:items-start lg:justify-between">
           <FollowUpsFilters
+            followUps={followUps}
             values={filters}
             onChange={setFilters}
             onReset={() => setFilters(DEFAULT_FILTERS)}

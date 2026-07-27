@@ -14,6 +14,7 @@ import { mockAgents } from "@/features/agents/data";
 import {
   FOLLOWUP_CHANNEL_LABELS,
   FOLLOWUP_STATUS_LABELS,
+  type FollowUp,
   type FollowUpChannel,
   type FollowUpStatus,
 } from "@/features/followups/types";
@@ -33,13 +34,19 @@ export type FollowUpFilterValues = {
 };
 
 type FollowUpsFiltersProps = {
+  followUps: FollowUp[];
   values: FollowUpFilterValues;
   onChange: (values: FollowUpFilterValues) => void;
   onReset: () => void;
 };
 
-export function FollowUpsFilters({ values, onChange, onReset }: FollowUpsFiltersProps) {
-  const leads = getUniqueFollowUpLeads();
+export function FollowUpsFilters({
+  followUps,
+  values,
+  onChange,
+  onReset,
+}: FollowUpsFiltersProps) {
+  const leads = getUniqueFollowUpLeads(followUps);
 
   return (
     <div className="flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:items-center">

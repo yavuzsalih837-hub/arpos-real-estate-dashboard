@@ -1,6 +1,5 @@
 import { isAfter, isBefore, isSameDay, isSameMonth, isSameWeek } from "date-fns";
 import { DEMO_TODAY } from "@/features/appointments/data";
-import { mockFollowUps } from "@/features/followups/data";
 import type { FollowUp } from "@/features/followups/types";
 import { getAgentById } from "@/features/agents/data";
 import { getLeadById } from "@/features/leads/data";
@@ -102,9 +101,11 @@ export function matchesDateRange(followUp: FollowUp, filter: DateRangeFilter): b
   }
 }
 
-export function getUniqueFollowUpLeads(): { id: string; name: string }[] {
+export function getUniqueFollowUpLeads(
+  followUps: FollowUp[],
+): { id: string; name: string }[] {
   const seen = new Map<string, string>();
-  for (const followUp of mockFollowUps) {
+  for (const followUp of followUps) {
     if (!seen.has(followUp.leadId)) {
       seen.set(followUp.leadId, followUp.leadName);
     }
