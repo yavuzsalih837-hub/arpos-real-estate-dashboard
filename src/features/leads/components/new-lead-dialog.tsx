@@ -26,7 +26,7 @@ import {
   SheetTitle,
   SheetTrigger,
 } from "@/components/ui/sheet";
-import { createClient } from "@/lib/supabase/client";
+import { createLead } from "@/features/leads/actions";
 import { LEAD_SOURCE_LABELS, type LeadSource } from "@/features/leads/types";
 import type { Agent } from "@/features/agents/types";
 
@@ -102,21 +102,19 @@ export function NewLeadDialog({
   }
 
   async function onSubmit(values: LeadFormValues) {
-    const supabase = createClient();
-    const { error } = await supabase.from("leads").insert({
-      id: crypto.randomUUID(),
+    const { error } = await createLead({
       name: values.name.trim(),
       phone: values.phone.trim(),
       email: values.email ? values.email.trim() : null,
       source: values.source as LeadSource,
-      agent_id: values.agentId === UNASSIGNED_AGENT ? null : values.agentId,
-      property_interest: values.propertyInterest?.trim() || null,
+      agentId: values.agentId === UNASSIGNED_AGENT ? null : values.agentId,
+      propertyInterest: values.propertyInterest?.trim() || null,
       budget: values.budget ? Number(values.budget) : 0,
       notes: values.notes?.trim() || null,
     });
 
     if (error) {
-      toast.error(`Lead eklenemedi: ${error.message}`);
+      toast.error(error);
       return;
     }
 
