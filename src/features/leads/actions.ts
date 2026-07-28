@@ -64,12 +64,6 @@ export async function createLead(
   });
 
   if (error) {
-    console.error("Lead insert başarısız:", {
-      code: error.code,
-      message: error.message,
-      details: error.details,
-      hint: error.hint,
-    });
     return { error: "Lead eklenirken bir hata oluştu. Lütfen tekrar deneyin." };
   }
 
