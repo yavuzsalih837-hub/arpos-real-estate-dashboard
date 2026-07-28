@@ -16,6 +16,7 @@ function mapPropertyRow(row: PropertyRow): Property {
     district: row.district,
     neighborhood: row.neighborhood ?? "",
     propertyType: row.property_type,
+    transactionType: row.transaction_type,
     rooms: row.rooms,
     areaM2: row.area_m2,
     status: row.status,
@@ -35,7 +36,7 @@ export async function getProperties(): Promise<Property[]> {
     const { data, error } = await supabase
       .from("properties")
       .select(
-        "id, listing_code, title, description, price, city, district, neighborhood, property_type, rooms, area_m2, status, agent_id, updated_at",
+        "id, listing_code, title, description, price, city, district, neighborhood, property_type, transaction_type, rooms, area_m2, status, agent_id, updated_at",
       )
       .order("updated_at", { ascending: false });
 

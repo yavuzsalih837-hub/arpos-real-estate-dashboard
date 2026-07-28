@@ -81,9 +81,29 @@ type PropertyRow = {
   rooms: string;
   area_m2: number;
   status: "aktif" | "pasif" | "satildi" | "kiralandi";
+  transaction_type: "satilik" | "kiralik";
   agent_id: string | null;
   created_at?: string;
   updated_at: string;
+};
+
+type PropertyInsert = {
+  id: string;
+  listing_code: string;
+  title: string;
+  description?: string | null;
+  price?: number;
+  city: string;
+  district: string;
+  neighborhood?: string | null;
+  property_type: PropertyRow["property_type"];
+  transaction_type?: PropertyRow["transaction_type"];
+  rooms?: string;
+  area_m2: number;
+  status?: PropertyRow["status"];
+  agent_id?: string | null;
+  created_at?: string;
+  updated_at?: string;
 };
 
 type AppointmentRow = {
@@ -153,7 +173,7 @@ export type Database = {
       };
       properties: {
         Row: PropertyRow;
-        Insert: PropertyRow;
+        Insert: PropertyInsert;
         Update: Partial<PropertyRow>;
         Relationships: [];
       };

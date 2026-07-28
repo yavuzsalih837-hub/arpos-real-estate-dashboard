@@ -8,6 +8,8 @@ export type PropertyType =
   | "isyeri"
   | "arsa";
 
+export type PropertyTransactionType = "satilik" | "kiralik";
+
 export type Property = {
   id: string;
   listingCode: string;
@@ -18,6 +20,7 @@ export type Property = {
   district: string;
   neighborhood: string;
   propertyType: PropertyType;
+  transactionType?: PropertyTransactionType;
   rooms: string;
   areaM2: number;
   status: PropertyStatus;
@@ -39,4 +42,12 @@ export const PROPERTY_TYPE_LABELS: Record<PropertyType, string> = {
   ofis: "Ofis",
   isyeri: "İşyeri",
   arsa: "Arsa",
+};
+
+export const PROPERTY_TRANSACTION_TYPE_LABELS: Record<
+  PropertyTransactionType,
+  string
+> = {
+  satilik: "Satılık",
+  kiralik: "Kiralık",
 };
