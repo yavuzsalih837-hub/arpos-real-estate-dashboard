@@ -45,6 +45,23 @@ type LeadRow = {
   updated_at: string;
 };
 
+type LeadInsert = {
+  id: string;
+  name: string;
+  phone: string;
+  email?: string | null;
+  status?: LeadRow["status"];
+  source: LeadRow["source"];
+  agent_id?: string | null;
+  score?: number;
+  budget?: number;
+  property_interest?: string | null;
+  last_contact_at?: string;
+  created_at?: string;
+  notes?: string | null;
+  updated_at?: string;
+};
+
 type PropertyRow = {
   id: string;
   listing_code: string;
@@ -65,7 +82,7 @@ type PropertyRow = {
   area_m2: number;
   status: "aktif" | "pasif" | "satildi" | "kiralandi";
   agent_id: string | null;
-  created_at: string;
+  created_at?: string;
   updated_at: string;
 };
 
@@ -81,8 +98,8 @@ type AppointmentRow = {
   scheduled_at: string;
   duration_minutes: number;
   note: string | null;
-  created_at: string;
-  updated_at: string;
+  created_at?: string;
+  updated_at?: string;
 };
 
 type FollowUpRow = {
@@ -96,8 +113,8 @@ type FollowUpRow = {
   status: "bekliyor" | "tamamlandi" | "iptal";
   note: string | null;
   history: { id: string; at: string; label: string }[];
-  created_at: string;
-  updated_at: string;
+  created_at?: string;
+  updated_at?: string;
 };
 
 type ConversationMessageRow = {
@@ -115,8 +132,8 @@ type ConversationRow = {
   lead_id: string | null;
   agent_id: string | null;
   messages: ConversationMessageRow[];
-  created_at: string;
-  updated_at: string;
+  created_at?: string;
+  updated_at?: string;
 };
 
 export type Database = {
@@ -126,31 +143,37 @@ export type Database = {
         Row: AgentRow;
         Insert: AgentRow;
         Update: Partial<AgentRow>;
+        Relationships: [];
       };
       leads: {
         Row: LeadRow;
-        Insert: LeadRow;
+        Insert: LeadInsert;
         Update: Partial<LeadRow>;
+        Relationships: [];
       };
       properties: {
         Row: PropertyRow;
         Insert: PropertyRow;
         Update: Partial<PropertyRow>;
+        Relationships: [];
       };
       appointments: {
         Row: AppointmentRow;
         Insert: AppointmentRow;
         Update: Partial<AppointmentRow>;
+        Relationships: [];
       };
       followups: {
         Row: FollowUpRow;
         Insert: FollowUpRow;
         Update: Partial<FollowUpRow>;
+        Relationships: [];
       };
       conversations: {
         Row: ConversationRow;
         Insert: ConversationRow;
         Update: Partial<ConversationRow>;
+        Relationships: [];
       };
     };
     Views: Record<string, never>;

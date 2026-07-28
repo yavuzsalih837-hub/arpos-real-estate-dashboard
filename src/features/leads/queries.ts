@@ -34,7 +34,7 @@ export async function getLeads(): Promise<Lead[]> {
     const { data, error } = await supabase
       .from("leads")
       .select(
-        "id, name, phone, email, status, source, agent_id, score, budget, property_interest, last_contact_at, created_at, notes",
+        "id, name, phone, email, status, source, agent_id, score, budget, property_interest, last_contact_at, created_at, notes, updated_at",
       )
       .order("created_at", { ascending: false });
 

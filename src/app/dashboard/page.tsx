@@ -15,6 +15,7 @@ import {
 } from "@/components/ui/card";
 import { getLeads } from "@/features/leads/queries";
 import { isHotLead } from "@/features/leads/lib";
+import { getAgents } from "@/features/agents/queries";
 import { getProperties } from "@/features/properties/queries";
 import { getFollowUps } from "@/features/followups/queries";
 import { getFollowUpCounts } from "@/features/followups/lib";
@@ -26,8 +27,9 @@ import {
 } from "@/features/appointments/lib";
 
 export default async function DashboardPage() {
-  const [leads, properties, appointments, followUps] = await Promise.all([
+  const [leads, agents, properties, appointments, followUps] = await Promise.all([
     getLeads(),
+    getAgents(),
     getProperties(),
     getAppointments(),
     getFollowUps(),
@@ -56,7 +58,7 @@ export default async function DashboardPage() {
       <PageHeader
         title="Ana Dashboard"
         description="Emlak operasyonunuzun genel görünümü."
-        actions={<QuickActions />}
+        actions={<QuickActions agents={agents} />}
       />
 
       <div className="grid grid-cols-2 gap-4 md:grid-cols-3 xl:grid-cols-6">
