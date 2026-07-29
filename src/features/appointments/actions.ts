@@ -85,16 +85,6 @@ export async function createAppointment(
   });
 
   if (error) {
-    // GEÇİCİ TANI LOGU: yalnızca Postgres/PostgREST hata alanları loglanır;
-    // token, cookie veya kullanıcı verisi loglanmaz. Kök neden netleşince
-    // kaldırılacaktır.
-    console.error("Randevu insert hatası:", {
-      code: error.code,
-      message: error.message,
-      details: error.details,
-      hint: error.hint,
-      role: user.role ?? null,
-    });
     return { error: "Randevu eklenirken bir hata oluştu. Lütfen tekrar deneyin." };
   }
 
