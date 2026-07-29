@@ -93,6 +93,7 @@ export async function createAppointment(
       message: error.message,
       details: error.details,
       hint: error.hint,
+      role: user.role ?? null,
     });
     return { error: "Randevu eklenirken bir hata oluştu. Lütfen tekrar deneyin." };
   }
