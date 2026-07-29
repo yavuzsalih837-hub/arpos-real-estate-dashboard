@@ -26,9 +26,15 @@ const createAppointmentSchema = z.object({
   propertyTitle: z.string().trim().min(1),
   type: z.enum(APPOINTMENT_TYPE_VALUES),
   status: z.enum(APPOINTMENT_STATUS_VALUES),
-  scheduledAt: z.string().refine((value) => !Number.isNaN(Date.parse(value)), {
-    message: "Geçerli bir tarih/saat girin.",
-  }),
+  scheduledAt: z.string().refine(
+    (value) => {
+      const parsed = new Date(value);
+      if (Number.isNaN(parsed.getTime())) return false;
+      const year = parsed.getUTCFullYear();
+      return year >= 1900 && year <= 2100;
+    },
+    { message: "Geçerli bir tarih/saat girin." },
+  ),
   durationMinutes: z.number().int().min(1),
   note: z.string().trim().optional().nullable(),
 });
@@ -79,6 +85,15 @@ export async function createAppointment(
   });
 
   if (error) {
+    // GEÇİCİ TANI LOGU: yalnızca Postgres/PostgREST hata alanları loglanır;
+    // token, cookie veya kullanıcı verisi loglanmaz. Kök neden netleşince
+    // kaldırılacaktır.
+    console.error("Randevu insert hatası:", {
+      code: error.code,
+      message: error.message,
+      details: error.details,
+      hint: error.hint,
+    });
     return { error: "Randevu eklenirken bir hata oluştu. Lütfen tekrar deneyin." };
   }
 

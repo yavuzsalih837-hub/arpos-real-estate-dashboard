@@ -62,7 +62,19 @@ const appointmentFormSchema = z.object({
       (value) => APPOINTMENT_STATUS_VALUES.includes(value as AppointmentStatus),
       { message: "Durum seçilmelidir." },
     ),
-  date: z.string().trim().min(1, "Tarih girilmelidir."),
+  date: z
+    .string()
+    .trim()
+    .min(1, "Tarih girilmelidir.")
+    .refine(
+      (value) => {
+        const match = /^(\d{4})-\d{2}-\d{2}$/.exec(value);
+        if (!match) return false;
+        const year = Number(match[1]);
+        return year >= 1900 && year <= 2100;
+      },
+      { message: "Geçerli bir tarih girin (yıl 1900-2100 arasında olmalı)." },
+    ),
   time: z.string().trim().min(1, "Saat girilmelidir."),
   durationMinutes: z
     .string()
@@ -103,6 +115,20 @@ export function NewAppointmentDialog({
 }: NewAppointmentDialogProps) {
   const [open, setOpen] = useState(false);
   const router = useRouter();
+
+  const leadItems = Object.fromEntries(
+    leads.map((lead) => [lead.id, `${lead.name} — ${lead.phone}`]),
+  );
+  const propertyItems = Object.fromEntries(
+    properties.map((property) => [property.id, property.title]),
+  );
+  const agentItems: Record<string, string> = {
+    [UNASSIGNED_AGENT]: "Atanmadı",
+    ...Object.fromEntries(agents.map((agent) => [agent.id, agent.name])),
+  };
+  const durationItems = Object.fromEntries(
+    DURATION_OPTIONS.map((minutes) => [String(minutes), `${minutes} dakika`]),
+  );
 
   const {
     register,
@@ -187,7 +213,11 @@ export function NewAppointmentDialog({
               control={control}
               name="leadId"
               render={({ field }) => (
-                <Select value={field.value} onValueChange={field.onChange}>
+                <Select
+                  value={field.value}
+                  onValueChange={field.onChange}
+                  items={leadItems}
+                >
                   <SelectTrigger className="w-full">
                     <SelectValue placeholder="Lead seçin" />
                   </SelectTrigger>
@@ -214,7 +244,11 @@ export function NewAppointmentDialog({
               control={control}
               name="propertyId"
               render={({ field }) => (
-                <Select value={field.value} onValueChange={field.onChange}>
+                <Select
+                  value={field.value}
+                  onValueChange={field.onChange}
+                  items={propertyItems}
+                >
                   <SelectTrigger className="w-full">
                     <SelectValue placeholder="Portföy seçin" />
                   </SelectTrigger>
@@ -241,7 +275,11 @@ export function NewAppointmentDialog({
               control={control}
               name="agentId"
               render={({ field }) => (
-                <Select value={field.value} onValueChange={field.onChange}>
+                <Select
+                  value={field.value}
+                  onValueChange={field.onChange}
+                  items={agentItems}
+                >
                   <SelectTrigger className="w-full">
                     <SelectValue placeholder="Danışman seçin" />
                   </SelectTrigger>
@@ -265,7 +303,11 @@ export function NewAppointmentDialog({
                 control={control}
                 name="type"
                 render={({ field }) => (
-                  <Select value={field.value} onValueChange={field.onChange}>
+                  <Select
+                    value={field.value}
+                    onValueChange={field.onChange}
+                    items={APPOINTMENT_TYPE_LABELS}
+                  >
                     <SelectTrigger className="w-full">
                       <SelectValue placeholder="Seçin" />
                     </SelectTrigger>
@@ -294,7 +336,11 @@ export function NewAppointmentDialog({
                 control={control}
                 name="status"
                 render={({ field }) => (
-                  <Select value={field.value} onValueChange={field.onChange}>
+                  <Select
+                    value={field.value}
+                    onValueChange={field.onChange}
+                    items={APPOINTMENT_STATUS_LABELS}
+                  >
                     <SelectTrigger className="w-full">
                       <SelectValue placeholder="Seçin" />
                     </SelectTrigger>
@@ -350,7 +396,11 @@ export function NewAppointmentDialog({
               control={control}
               name="durationMinutes"
               render={({ field }) => (
-                <Select value={field.value} onValueChange={field.onChange}>
+                <Select
+                  value={field.value}
+                  onValueChange={field.onChange}
+                  items={durationItems}
+                >
                   <SelectTrigger className="w-full">
                     <SelectValue placeholder="Süre seçin" />
                   </SelectTrigger>
