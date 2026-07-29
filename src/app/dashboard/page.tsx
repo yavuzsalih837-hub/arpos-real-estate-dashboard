@@ -58,7 +58,9 @@ export default async function DashboardPage() {
       <PageHeader
         title="Ana Dashboard"
         description="Emlak operasyonunuzun genel görünümü."
-        actions={<QuickActions agents={agents} />}
+        actions={
+          <QuickActions agents={agents} leads={leads} properties={properties} />
+        }
       />
 
       <div className="grid grid-cols-2 gap-4 md:grid-cols-3 xl:grid-cols-6">
