@@ -1,17 +1,12 @@
 "use client";
 
-import { MessageCircle } from "lucide-react";
-import { ComingSoonButton } from "@/components/shared/coming-soon-button";
 import { NewLeadDialog } from "@/features/leads/components/new-lead-dialog";
 import { NewPropertyDialog } from "@/features/properties/components/new-property-dialog";
 import { NewAppointmentDialog } from "@/features/appointments/components/new-appointment-dialog";
+import { NewWhatsAppMessageDialog } from "@/features/messages/components/new-whatsapp-message-dialog";
 import type { Agent } from "@/features/agents/types";
 import type { Lead } from "@/features/leads/types";
 import type { Property } from "@/features/properties/types";
-
-const OTHER_ACTIONS = [
-  { label: "WhatsApp Mesajı Gönder", icon: MessageCircle },
-] as const;
 
 type QuickActionsProps = {
   agents: Agent[];
@@ -31,15 +26,7 @@ export function QuickActions({ agents, leads, properties }: QuickActionsProps) {
         variant="outline"
         size="sm"
       />
-      {OTHER_ACTIONS.map((action) => (
-        <ComingSoonButton
-          key={action.label}
-          variant="outline"
-          size="sm"
-          icon={action.icon}
-          label={action.label}
-        />
-      ))}
+      <NewWhatsAppMessageDialog leads={leads} variant="outline" size="sm" />
     </div>
   );
 }
