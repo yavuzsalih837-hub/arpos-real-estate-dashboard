@@ -35,8 +35,16 @@ export function MessagesView({
   leads: Lead[];
 }) {
   const [conversations, setConversations] = useState(initialConversations);
+  const [prevInitialConversations, setPrevInitialConversations] = useState(
+    initialConversations,
+  );
   const [filters, setFilters] = useState<MessageFilterValues>(DEFAULT_FILTERS);
   const [selectedId, setSelectedId] = useState<string | null>(null);
+
+  if (initialConversations !== prevInitialConversations) {
+    setPrevInitialConversations(initialConversations);
+    setConversations(initialConversations);
+  }
 
   const counts = useMemo(() => getConversationCounts(conversations), [conversations]);
 

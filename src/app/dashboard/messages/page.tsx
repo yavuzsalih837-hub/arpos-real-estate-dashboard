@@ -3,6 +3,8 @@ import { MessagesView } from "@/features/messages/components/messages-view";
 import { getConversations } from "@/features/messages/queries";
 import { getLeads } from "@/features/leads/queries";
 
+export const dynamic = "force-dynamic";
+
 export default async function MessagesPage() {
   const [conversations, leads] = await Promise.all([
     getConversations(),

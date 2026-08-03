@@ -4,7 +4,7 @@ import { useState, type ComponentProps } from "react";
 import { useForm, useWatch, Controller } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { MessageCircle } from "lucide-react";
 import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
@@ -94,6 +94,7 @@ export function NewWhatsAppMessageDialog({
 }: NewWhatsAppMessageDialogProps) {
   const [open, setOpen] = useState(false);
   const router = useRouter();
+  const pathname = usePathname();
 
   const leadItems = Object.fromEntries(
     leads.map((lead) => [lead.id, `${lead.name} — ${lead.phone}`]),
@@ -180,7 +181,12 @@ export function NewWhatsAppMessageDialog({
 
     toast.success("WhatsApp penceresi açıldı.");
     handleOpenChange(false);
-    router.refresh();
+
+    if (pathname === "/dashboard/messages") {
+      router.refresh();
+    } else {
+      router.push("/dashboard/messages");
+    }
   }
 
   return (
