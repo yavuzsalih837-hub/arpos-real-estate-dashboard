@@ -19,6 +19,7 @@ import {
   sortConversationsByRecency,
 } from "@/features/messages/lib";
 import type { Conversation } from "@/features/messages/types";
+import type { Lead } from "@/features/leads/types";
 
 const DEFAULT_FILTERS: MessageFilterValues = {
   search: "",
@@ -28,8 +29,10 @@ const DEFAULT_FILTERS: MessageFilterValues = {
 
 export function MessagesView({
   conversations: initialConversations,
+  leads,
 }: {
   conversations: Conversation[];
+  leads: Lead[];
 }) {
   const [conversations, setConversations] = useState(initialConversations);
   const [filters, setFilters] = useState<MessageFilterValues>(DEFAULT_FILTERS);
@@ -38,8 +41,11 @@ export function MessagesView({
   const counts = useMemo(() => getConversationCounts(conversations), [conversations]);
 
   const enrichedConversations = useMemo(
-    () => sortConversationsByRecency(conversations).map(enrichConversation),
-    [conversations],
+    () =>
+      sortConversationsByRecency(conversations).map((conversation) =>
+        enrichConversation(conversation, leads),
+      ),
+    [conversations, leads],
   );
 
   const filteredConversations = useMemo(() => {

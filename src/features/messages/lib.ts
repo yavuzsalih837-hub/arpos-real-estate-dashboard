@@ -1,7 +1,6 @@
 import { isSameDay } from "date-fns";
 import { DEMO_TODAY } from "@/features/appointments/data";
 import { getAgentById } from "@/features/agents/data";
-import { getLeadById } from "@/features/leads/data";
 import type { Agent } from "@/features/agents/types";
 import type { Lead } from "@/features/leads/types";
 import type { Conversation, Message } from "@/features/messages/types";
@@ -28,10 +27,13 @@ export function needsReply(conversation: Conversation): boolean {
   return lastMessage?.direction === "inbound";
 }
 
-export function enrichConversation(conversation: Conversation): EnrichedConversation {
+export function enrichConversation(
+  conversation: Conversation,
+  leads: Lead[],
+): EnrichedConversation {
   return {
     ...conversation,
-    lead: getLeadById(conversation.leadId),
+    lead: leads.find((lead) => lead.id === conversation.leadId),
     agent: getAgentById(conversation.agentId),
     lastMessage: getLastMessage(conversation),
     unreadCount: getUnreadCount(conversation),
