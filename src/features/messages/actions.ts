@@ -2,6 +2,7 @@
 
 import { z } from "zod";
 import { createClient } from "@/lib/supabase/server";
+import { toNaiveISOString } from "@/lib/utils";
 import type { Message } from "@/features/messages/types";
 
 const logWhatsAppMessageSchema = z.object({
@@ -45,7 +46,7 @@ export async function logWhatsAppMessage(
     id: crypto.randomUUID(),
     direction: "outbound",
     content: values.content,
-    sentAt: new Date().toISOString(),
+    sentAt: toNaiveISOString(new Date()),
     read: true,
     automated: false,
   };
