@@ -145,6 +145,7 @@ type ConversationMessageRow = {
   read: boolean;
   deliveryStatus?: "gonderildi" | "iletildi" | "okundu";
   automated?: boolean;
+  waMessageId?: string;
 };
 
 type ConversationRow = {
@@ -152,8 +153,21 @@ type ConversationRow = {
   lead_id: string | null;
   agent_id: string | null;
   messages: ConversationMessageRow[];
+  wa_id?: string | null;
   created_at?: string;
   updated_at?: string;
+};
+
+type WhatsAppMessageLogRow = {
+  wamid: string;
+  conversation_id: string | null;
+  created_at?: string;
+};
+
+type WhatsAppMessageLogInsert = {
+  wamid: string;
+  conversation_id?: string | null;
+  created_at?: string;
 };
 
 export type Database = {
@@ -193,6 +207,12 @@ export type Database = {
         Row: ConversationRow;
         Insert: ConversationRow;
         Update: Partial<ConversationRow>;
+        Relationships: [];
+      };
+      whatsapp_message_log: {
+        Row: WhatsAppMessageLogRow;
+        Insert: WhatsAppMessageLogInsert;
+        Update: Partial<WhatsAppMessageLogRow>;
         Relationships: [];
       };
     };

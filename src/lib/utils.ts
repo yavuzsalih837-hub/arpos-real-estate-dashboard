@@ -33,3 +33,11 @@ export function formatCurrencyTRY(amount: number): string {
 export function toNaiveISOString(date: Date): string {
   return format(date, "yyyy-MM-dd'T'HH:mm:ss.SSS");
 }
+
+/**
+ * Telefon numarasını yalnızca rakamlara indirger (+90 532 111 22 33 -> 905321112233).
+ * WhatsApp wa_id karşılaştırması ve wa.me deep-link linkleri için kullanılır.
+ */
+export function normalizePhoneDigits(phone: string | null | undefined): string {
+  return phone ? phone.replace(/\D/g, "") : "";
+}

@@ -27,6 +27,7 @@ import {
   SheetTrigger,
 } from "@/components/ui/sheet";
 import { logWhatsAppMessage } from "@/features/messages/actions";
+import { normalizePhoneDigits } from "@/lib/utils";
 import type { Lead } from "@/features/leads/types";
 
 const NO_TEMPLATE = "serbest";
@@ -61,10 +62,6 @@ const MESSAGE_TEMPLATES: MessageTemplate[] = [
 function firstName(fullName: string | undefined): string {
   if (!fullName) return "değerli müşterimiz";
   return fullName.trim().split(" ")[0] || "değerli müşterimiz";
-}
-
-function digitsOnly(phone: string | undefined): string {
-  return phone ? phone.replace(/\D/g, "") : "";
 }
 
 const whatsappFormSchema = z.object({
@@ -119,7 +116,7 @@ export function NewWhatsAppMessageDialog({
   const leadId = useWatch({ control, name: "leadId" });
   const message = useWatch({ control, name: "message" });
   const selectedLead = leads.find((lead) => lead.id === leadId);
-  const phoneDigits = digitsOnly(selectedLead?.phone);
+  const phoneDigits = normalizePhoneDigits(selectedLead?.phone);
 
   function handleOpenChange(nextOpen: boolean) {
     setOpen(nextOpen);
